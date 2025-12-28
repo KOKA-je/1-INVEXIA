@@ -1,0 +1,50 @@
+<?php
+namespace Database\Factories;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use App\Models\User;
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
+class UserFactory extends Factory
+{
+    /**
+     * The current password being used by the factory.
+     */
+    protected static $counter = 1; // compteur initial
+    protected $model = User::class;
+    protected static ?string $password;
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $matricule = 'M' . str_pad((string) static::$counter, 5, '0', STR_PAD_LEFT);
+        static::$counter++; // incrémente le compteur à chaque utilisateur
+
+
+        return [
+            'mat_ag' => $matricule,
+            'nom_ag' => $this->faker->firstName(),
+            'pren_ag' => $this->faker->firstName(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => 'password',
+            'sta_ag' => 'actif',
+            'dir_ag' => 'DSI',
+            'loc_ag' => '1ER ETAGE',
+            'remember_token' => Str::random(10),
+        ];
+    }
+    /**
+     * Indicate that the model's email address should be unverified.
+     */
+    public function unverified(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
+        ]);
+    }
+}

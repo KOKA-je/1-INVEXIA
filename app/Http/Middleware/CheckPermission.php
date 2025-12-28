@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class CheckPermission
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next, $permission): Response
+    {
+        if (! $request->user() || ! $request->user()->can($permission)) {
+            // Affiche la vue 403 personnalisée si l'utilisateur n'a pas la permission
+            abort(403, 'Action non autorisée.');
+        }
+
+        return $next($request);
+    }
+}

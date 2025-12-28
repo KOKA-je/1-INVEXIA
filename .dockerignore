@@ -1,0 +1,15 @@
+node_modules/
+vendor/
+.env
+.env.*
+storage/
+public/storage
+public/hot
+public/hot.php
+npm-debug.log
+yarn-error.log
+.idea
+.vscode
+*.log
+.DS_Store
+Thumbs.db
